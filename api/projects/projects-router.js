@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/', async (req, res) =>{
     try{
-        const projects = await Projects.getAll()
+      const projects = await Projects.getAll()
         res.status(200).json(projects || [])
     } catch (err){
         res.status(500).json({

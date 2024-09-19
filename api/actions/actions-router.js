@@ -2,7 +2,7 @@
 
 const express = require('express');
 const Actions = require('./actions-model');
-const { validateActionId, validateActionBody } = require('./actions-middleware');
+const { validateActionId, validateActionBody } = require('./actions-middlware');
 
 const router = express.Router();
 
@@ -45,7 +45,7 @@ router.put('/:id', validateActionId, validateActionBody, async (req, res) => {
 router.delete('/:id', validateActionId, async (req, res) => {
   try {
     await Actions.remove(req.params.id);
-    res.status(204).end(); // No content
+    res.status(204).end(); 
   } catch (err) {
     res.status(500).json({ message: 'Error deleting action' });
   }
