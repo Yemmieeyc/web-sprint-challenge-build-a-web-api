@@ -171,6 +171,7 @@ describe('server.js', () => {
         expect(res1.body).toMatchObject(actionA)
         expect(res2.body).toMatchObject(actionB)
       }, 750)
+
       test('[18] responds with a 404 if no action with given id', async () => {
         const res = await request(server).get('/api/actions/11')
         expect(res.status).toBe(404)

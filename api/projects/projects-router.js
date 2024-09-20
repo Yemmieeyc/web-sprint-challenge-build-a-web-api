@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/', async (req, res) =>{
     try{
-      const projects = await Projects.getAll()
+      const projects = await Projects.get()
         res.status(200).json(projects || [])
     } catch (err){
         res.status(500).json({
@@ -15,7 +15,7 @@ router.get('/', async (req, res) =>{
 })
 router.get('/:id', async(req, res) =>{
     try{
-        const project = await Projects.getById(req.params.id)
+        const project = await Projects.get(req.params.id)
         if(project){
             res.status(200).json(project)
         }else{
@@ -23,7 +23,7 @@ router.get('/:id', async(req, res) =>{
                 message: 'Project not found'})
         }
     } catch (err){
-        res.status(500).json({
+        res.status(404).json({
             message: 'Error retrieving the project'})
     }
 })
@@ -34,7 +34,7 @@ router.post('/', async(req, res)=>{
             message: "Missing required fields"})
     }
     try{
-        const newProject = await Projects.create({name, description, completed})
+        const newProject = await Projects.insert({name, description, completed})
         res.status(201).json(newProject)
     } catch(err){
         res.status(201).json({
@@ -45,7 +45,7 @@ router.post('/', async(req, res)=>{
 
 router.put('/:id', async (req, res) => {
   const { name, description, completed } = req.body;
-  if (!name || !description) {
+  if (!name || !description || typeof completed === 'undefined') {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -76,7 +76,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id/actions', async (req, res) => {
   try {
-    const project = await Projects.getById(req.params.id);
+    const project = await Projects.getProjectActions(req.params.id);
     if (project) {
       const actions = await Projects.getProjectActions(req.params.id);
       res.status(200).json(actions);
