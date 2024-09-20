@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const actions = await Actions.get();
-    res.json(actions);
+    res.status(200).json(actions);
   } catch (err) {
     res.status(500).json({ message: 'Error retrieving actions' });
   }
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 // [GET] /api/actions/:id
 router.get('/:id', validateActionId, (req, res) => {
-  res.json(req.id); 
+  res.json(req.actId); 
 });
 
 // [POST] /api/actions
